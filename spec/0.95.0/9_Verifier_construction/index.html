@@ -1,0 +1,1885 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Microsoft">
+      
+      
+      <link rel="shortcut icon" href="../../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.3">
+    
+    
+      
+        <title>Verifier Construction - ElectionGuard</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.1655a90d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Segoe+UI:300,400,400i,700%7C&display=fallback">
+        <style>:root{--md-text-font-family:"Segoe UI";--md-code-font-family:""}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  
+  
+    
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ElectionGuard - Verifier Construction" />
+  <meta property="og:description" content="None" />
+  <meta property="og:url" content="None" />
+  <meta property="og:image" content="https://microsoft.github.io/electionguard/assets/images/electionguard-preview.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@microsoft" />
+  <meta name="twitter:title" content="ElectionGuard - Verifier Construction" />
+  <meta name="twitter:description" content="None" />
+  <meta name="twitter:image" content="https://microsoft.github.io/electionguard/assets/images/electionguard-preview.png" />
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#verifier-construction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ElectionGuard" class="md-header__button md-logo" aria-label="ElectionGuard">
+      
+  <img src="../../../images/electionguard-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ElectionGuard
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Verifier Construction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/microsoft/electionguard/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        About
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../guide/Getting_Started/" class="md-tabs__link">
+        Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Overview/" class="md-tabs__link md-tabs__link--active">
+        Specification
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ElectionGuard" class="md-nav__button md-logo" aria-label="ElectionGuard">
+      
+  <img src="../../../images/electionguard-logo.png" alt="logo">
+
+    </a>
+    ElectionGuard
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/microsoft/electionguard/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        About
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="About" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Roadmap/" class="md-nav__link">
+        Roadmap
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Getting_Started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      <label class="md-nav__link" for="__nav_2_2">
+        SDK
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SDK" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          SDK
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Core_Component/" class="md-nav__link">
+        Core Component
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Implementations/" class="md-nav__link">
+        Implementations
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      <label class="md-nav__link" for="__nav_2_3">
+        Additional Topics
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Additional Topics" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Additional Topics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Verifiable_Election/" class="md-nav__link">
+        Verifiable Election
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Election_Manifest/" class="md-nav__link">
+        Election Manifest
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Precinct_scan/" class="md-nav__link">
+        Precinct Scan Use Case
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guide/Glossary/" class="md-nav__link">
+        Glossary
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Specification
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Specification" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Specification
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Overview/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      <label class="md-nav__link" for="__nav_3_2">
+        v0.95
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="v0.95" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          v0.95
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1_Overview/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_Structure/" class="md-nav__link">
+        Structure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3_Baseline_parameters/" class="md-nav__link">
+        Baseline Parameters
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4_Key_generation/" class="md-nav__link">
+        Key Generation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5_Ballot_encryption/" class="md-nav__link">
+        Ballot Encryption
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6_Ballot_aggregation/" class="md-nav__link">
+        Ballot Aggregation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7_Verifiable_decryption/" class="md-nav__link">
+        Verifiable Decryption
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8_The_election_record/" class="md-nav__link">
+        The Election Record
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Verifier Construction
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Verifier Construction
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    Implementation details
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modular-addition" class="md-nav__link">
+    Modular Addition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-multiplication" class="md-nav__link">
+    Modular Multiplication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-exponentiation" class="md-nav__link">
+    Modular Exponentiation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-computation" class="md-nav__link">
+    Hash Computation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-validation" class="md-nav__link">
+    Parameter Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guardian-public-key-validation" class="md-nav__link">
+    Guardian Public Key Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#election-public-key-validation" class="md-nav__link">
+    Election Public Key Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-selection-encryptions" class="md-nav__link">
+    Correctness of Selection Encryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adherence-to-vote-limits" class="md-nav__link">
+    Adherence to Vote Limits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-of-ballot-chaining" class="md-nav__link">
+    Validation of Ballot Chaining
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-ballot-aggregation" class="md-nav__link">
+    Correctness of Ballot Aggregation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-partial-decryptions" class="md-nav__link">
+    Correctness of Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-partial-decryptions_1" class="md-nav__link">
+    Correctness of Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-substitute-data-for-missing-guardians" class="md-nav__link">
+    Correctness of Substitute Data for Missing Guardians
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-construction-of-replacement-partial-decryptions" class="md-nav__link">
+    Correctness of Construction of Replacement Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-of-correct-decryption-of-tallies" class="md-nav__link">
+    Validation of Correct Decryption of Tallies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_Applicability/" class="md-nav__link">
+        Applicability to E2E Verifiability and RLA
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_Acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/microsoft/electionguard/releases/tag/v0.85.0" class="md-nav__link">
+        v0.85
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    Implementation details
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modular-addition" class="md-nav__link">
+    Modular Addition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-multiplication" class="md-nav__link">
+    Modular Multiplication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-exponentiation" class="md-nav__link">
+    Modular Exponentiation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash-computation" class="md-nav__link">
+    Hash Computation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-validation" class="md-nav__link">
+    Parameter Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#guardian-public-key-validation" class="md-nav__link">
+    Guardian Public Key Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#election-public-key-validation" class="md-nav__link">
+    Election Public Key Validation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-selection-encryptions" class="md-nav__link">
+    Correctness of Selection Encryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adherence-to-vote-limits" class="md-nav__link">
+    Adherence to Vote Limits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-of-ballot-chaining" class="md-nav__link">
+    Validation of Ballot Chaining
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-ballot-aggregation" class="md-nav__link">
+    Correctness of Ballot Aggregation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-partial-decryptions" class="md-nav__link">
+    Correctness of Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-partial-decryptions_1" class="md-nav__link">
+    Correctness of Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-substitute-data-for-missing-guardians" class="md-nav__link">
+    Correctness of Substitute Data for Missing Guardians
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#correctness-of-construction-of-replacement-partial-decryptions" class="md-nav__link">
+    Correctness of Construction of Replacement Partial Decryptions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-of-correct-decryption-of-tallies" class="md-nav__link">
+    Validation of Correct Decryption of Tallies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/microsoft/electionguard/edit/master/docs/spec/0.95.0/9_Verifier_construction.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="verifier-construction">Verifier Construction</h1>
+<p>While it is desirable for anyone who may construct an ElectionGuard verifier to have as complete understanding as possible of the ElectionGuard design, this section isolates the items which must be verified and maps the variables used in the specification equations herein to the labels provided in the artifacts produced in an election. <sup id="fnref:23"><a class="footnote-ref" href="#fn:23">1</a></sup></p>
+<h2 id="implementation-details">Implementation details</h2>
+<p>There are four operations which must be performed – all on very large integer values: modular addition, modular multiplication, modular exponentiation, and SHA-256 hash computations.  These operations can be performed using a programming language that provides native support, by importing tools to perform these large integer operations, or by implementing these operations from scratch.</p>
+<h3 id="modular-addition">Modular Addition</h3>
+<p>To compute </p>
+<div class="arithmatex">\[
+(a+b) \bmod n
+\]</div>
+<p>one can compute </p>
+<div class="arithmatex">\[
+((a \bmod n)+(b \bmod n)) \bmod n
+\]</div>
+<p>However, this is rarely beneficial.  If it is known that <span class="arithmatex">\(a,b \in Z_n\)</span>, then one can choose to avoid the division normally inherent in the modular reduction and just use </p>
+<div class="arithmatex">\[
+(a+b) \bmod n=a+b
+\]</div>
+<p>(if <span class="arithmatex">\(a+b \lt n\)</span>) or </p>
+<div class="arithmatex">\[
+a+b-n
+\]</div>
+<p>(if <span class="arithmatex">\(a+b \ge n\)</span>).</p>
+<h3 id="modular-multiplication">Modular Multiplication</h3>
+<p>To compute </p>
+<div class="arithmatex">\[
+(a \times b) \bmod n
+\]</div>
+<p>one can compute </p>
+<div class="arithmatex">\[
+((a \bmod n) \times(b \bmod n))  \bmod n
+\]</div>
+<p>Unless it is already known that <span class="arithmatex">\(a,b \in Z_n\)</span>, it is usually beneficial to perform modular reduction on these intermediate values before computing the product.  However, it is still necessary to perform modular reduction on the result of the multiplication.</p>
+<h3 id="modular-exponentiation">Modular Exponentiation</h3>
+<p>To compute</p>
+<div class="arithmatex">\[
+a^b  \bmod n
+\]</div>
+<p>one can compute </p>
+<div class="arithmatex">\[
+(a \bmod n)^b  \bmod n
+\]</div>
+<p>but one should not perform a modular reduction on the exponent.<sup id="fnref:24"><a class="footnote-ref" href="#fn:24">2</a></sup> One should, however, never simply attempt to compute the exponentiation <span class="arithmatex">\(a^b\)</span> before performing a modular reduction as the number <span class="arithmatex">\(a^b\)</span> would likely contain more digits then there are particles in the universe.  Instead, one should use a special-purpose modular exponentiation method such as repeated squaring which prevents intermediate values from growing excessively large.  Some languages include a native modular exponentiation primitive, but when this is not available a specialized modular exponentiation tool can be imported or written from scratch.</p>
+<h3 id="hash-computation">Hash Computation</h3>
+<p>Hashes are computed using the SHA-256 hash function in NIST (2015) Secure Hash Standard (SHS) which is published in FIPS 180-4 and can be found in <a href="https://csrc.nist.gov/publications/detail/fips/180/4/final">https://csrc.nist.gov/publications/detail/fips/180/4/final</a>.  </p>
+<p>For the purposes of SHA-256 hash computations, all inputs – whether textural or numeric – are represented as utf-8 encoded strings.  Numbers are represented as strings in base ten.  The hash function expects a single-dimensional array of input elements that are hashed iteratively, rather than concatenated together.  Each element in the hash is separated by the pipe character (“|”). When dealing with multi-dimensional arrays, the elements are hashed recursively in the order in which they are input into the hash function.  For instance, calling </p>
+<div class="arithmatex">\[
+H(1,2,[3,4,5],6)
+\]</div>
+<p>is a function call with 4 parameters, where the 3rd parameter is itself an array.  The hash function will process arguments 1 and 2, when it gets to argument 3 it will traverse the array (and hash the values 3, 4 ,5) before hashing the final fourth argument (whose value is 6).  When hashing an array element that is empty, the array is instead replaced with the word “null” as a placeholder.</p>
+<h2 id="parameter-validation">Parameter Validation</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An <em>ElectionGuard</em> version 1 election verifier may assume that the baseline parameters match the parameters provided above.  However, it is recommended that the below parameters be checked against the parameters of each election to accommodate the possibility of different parameters in future versions of <em>ElectionGuard</em>.<sup id="fnref:25"><a class="footnote-ref" href="#fn:25">3</a></sup></p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(p\)</span></td>
+<td>4096-bit modulus</td>
+<td>root</td>
+<td>constants.json</td>
+<td>large_prime</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(q\)</span></td>
+<td>256-bit prime order of subgroup <span class="arithmatex">\(Z_p^*\)</span> of encryptions</td>
+<td>root</td>
+<td>constants.json</td>
+<td>small_prime</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(r\)</span></td>
+<td>co-factor of <span class="arithmatex">\(q\)</span></td>
+<td>root</td>
+<td>constants.json</td>
+<td>cofactor</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(g\)</span></td>
+<td>generator of order <span class="arithmatex">\(q\)</span> multiplicative subgroup of <span class="arithmatex">\(Z_p^*\)</span></td>
+<td>root</td>
+<td>contstants.json</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(n\)</span></td>
+<td>number of guardians</td>
+<td>root</td>
+<td>context.json</td>
+<td>number_of_guardians</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(k\)</span></td>
+<td>minimum number of guardians required to decrypt tallies and produce verification data</td>
+<td>root</td>
+<td>context.json</td>
+<td>quorum</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(Q\)</span></td>
+<td>base hash value formed by <span class="arithmatex">\(p\)</span>, <span class="arithmatex">\(q\)</span>, <span class="arithmatex">\(g\)</span>, <span class="arithmatex">\(n\)</span>, <span class="arithmatex">\(k\)</span>, date, and jurisdictional information</td>
+<td>root</td>
+<td>context.json</td>
+<td>crypto_base_hash</td>
+</tr>
+</tbody>
+</table>
+<h2 id="guardian-public-key-validation">Guardian Public Key Validation</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm the following for each guardian <span class="arithmatex">\(T_i\)</span> and for each <span class="arithmatex">\(j \in Z_k\)</span>:</p>
+<p>(A) The challenge <span class="arithmatex">\(c_{i,j}\)</span> is correctly computed as </p>
+<div class="arithmatex">\[
+c_{i,j}=H(Q,K_{i,j},h_{i,j} )  \bmod q
+\]</div>
+<p>(B) The equation </p>
+<div class="arithmatex">\[
+g^{u_{i,j} }  \bmod p=h_{i,j} K_{i,j}^{c_{i,j} }  \bmod p 
+\]</div>
+<p>is satisfied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(K_{i,j}\)</span></td>
+<td>public form of each random coefficient <span class="arithmatex">\(a_{i,j}\)</span></td>
+<td>coefficients</td>
+<td>every file in this folder</td>
+<td>large_prime</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(h_(i,j)\)</span></td>
+<td>coefficient commitments</td>
+<td>coefficients</td>
+<td>every file in this folder</td>
+<td>coefficient_proofs <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> commitment</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c_i\)</span></td>
+<td>challenge value</td>
+<td>coefficients</td>
+<td>every file in this folder</td>
+<td>coefficient_proofs <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(u_{i,j}\)</span></td>
+<td>response</td>
+<td>coefficients</td>
+<td>every file in this folder</td>
+<td>coefficient_proofs <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="election-public-key-validation">Election Public Key Validation</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must verify the correct computation of the joint election public key and extended base hash.</p>
+<p>(A) Joint election public key</p>
+<div class="arithmatex">\[
+K=\prod_{i=1}^n K_i  \bmod p
+\]</div>
+<p>(B) Extended base hash</p>
+<div class="arithmatex">\[
+\bar{Q} = H(Q,K_1,0,K_1,1,K_1,2,\ldots,K_{1,k-1},K_2,0,K_2,1,K_2,2,\ldots,K_{2,k-1},\ldots,K_{n,0},K_{n,1},K_{n,2},\ldots,K_{n,k-1})
+\]</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\bar{Q}\)</span></td>
+<td>extended base hash</td>
+<td>Root</td>
+<td>context.json</td>
+<td>crypto_extended_base_hash</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(K\)</span></td>
+<td>joint election public key</td>
+<td>Root</td>
+<td>context.json</td>
+<td>elgamal_public_key</td>
+</tr>
+</tbody>
+</table>
+<h2 id="correctness-of-selection-encryptions">Correctness of Selection Encryptions</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm the following for each possible selection on a ballot:</p>
+<p>The given values <span class="arithmatex">\(\alpha\)</span>, <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(a_0\)</span>, <span class="arithmatex">\(b_0\)</span>, <span class="arithmatex">\(a_1\)</span>, and <span class="arithmatex">\(b_1\)</span> are all in the set <span class="arithmatex">\(Z_p^r\)</span>.  (A value <span class="arithmatex">\(x\)</span> is in <span class="arithmatex">\(Z_p^r\)</span> if and only if <span class="arithmatex">\(x\)</span> is an integer such that <span class="arithmatex">\(0 \le x \lt p\)</span> and <span class="arithmatex">\(x^q  \bmod p=1\)</span> is satisfied.)</p>
+<p>(J) The challenge <span class="arithmatex">\(c\)</span> is correctly computed as </p>
+<div class="arithmatex">\[
+c=H(\bar{Q},(\alpha,\beta),(a_0,b_0 ),(a_1,b_1 ))
+\]</div>
+<p>(K) The given values <span class="arithmatex">\(c_0\)</span>, <span class="arithmatex">\(c_1\)</span>, <span class="arithmatex">\(v_0\)</span>, and <span class="arithmatex">\(v_1\)</span> are each in the set <span class="arithmatex">\(Z_q\)</span>.  (A value <span class="arithmatex">\(x\)</span> is in <span class="arithmatex">\(Z_q\)</span> if and only if <span class="arithmatex">\(x\)</span> is an integer such that 0 \le x \lt q.)</p>
+<p>(L) The equation </p>
+<div class="arithmatex">\[
+c=(c_0+c_1 )  \bmod q
+\]</div>
+<p>is satisfied.</p>
+<p>(M) The equation </p>
+<div class="arithmatex">\[
+g^{v_0}  \bmod p= a_0 \alpha^{c_0}  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(N) The equation </p>
+<div class="arithmatex">\[
+g^{v_1}  \bmod p=a_1 \alpha^{c_1}  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(O) The equation </p>
+<div class="arithmatex">\[
+K^{v_0}  \bmod p=b_0 \beta^{c_0}  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(P) The equation </p>
+<div class="arithmatex">\[
+g^{c_1} K^{v_1}  \bmod p=b_1 \beta^{c_1}  \bmod p
+\]</div>
+<p>is satisfied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\((\alpha,\beta)\)</span></td>
+<td>encryption of vote</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ciphertext <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td>(a_0,b_0)</td>
+<td>commitment to vote being an encryption of zero</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_zero_pad, proof_zero_data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((a_1,b_1)\)</span></td>
+<td>commitment to vote being an encryption of one</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_one_pad, proof_one_data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c\)</span></td>
+<td>challenge</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c_0\)</span></td>
+<td>derived challenge to encryption of zero</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_zero_challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c_1\)</span></td>
+<td>derived challenge to encryption of one</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_one_challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(v_0\)</span></td>
+<td>response to zero challenge</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_zero_response</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(v_1\)</span></td>
+<td>response to one challenge</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> proof_one_response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adherence-to-vote-limits">Adherence to Vote Limits</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm the following for each contest on the ballot:</p>
+<p>(H) The number of placeholder positions matches the contest’s selection limit <span class="arithmatex">\(L\)</span>.</p>
+<p>(I) The contest total <span class="arithmatex">\((A,B)\)</span> satisfies</p>
+<div class="arithmatex">\[
+A=\prod_i \alpha_i  \bmod p
+\]</div>
+<p>and </p>
+<div class="arithmatex">\[
+B=\prod_i \beta_i  \bmod p
+\]</div>
+<p>where the <span class="arithmatex">\((\alpha_i,\beta_i )\)</span> represent all possible selections (including placeholder selections) for the contest.</p>
+<p>(J) The given value <span class="arithmatex">\(V\)</span> is in <span class="arithmatex">\(Z_q\)</span>.</p>
+<p>(K) The given values a and b are each in <span class="arithmatex">\(Z_p^r\)</span>.</p>
+<p>(L) The challenge value <span class="arithmatex">\(C\)</span> is correctly computed as </p>
+<div class="arithmatex">\[
+C=H(\bar{Q},(A,B),(a,b))
+\]</div>
+<p>(M) The equation </p>
+<div class="arithmatex">\[
+g^V  \bmod p=(aA^C )  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(N) The equation </p>
+<div class="arithmatex">\[
+((g^{LC} K)^V )  \bmod p=(bB^C )  \bmod p
+\]</div>
+<p>is satisfied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\((\alpha_i,\beta_i)\)</span></td>
+<td>encryption of <span class="arithmatex">\(i^th\)</span> vote in contest</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ciphertext <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((A,B)\)</span></td>
+<td>encryption of total votes in contest</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> total <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((a,b)\)</span></td>
+<td>commitment to vote being an encryption of one</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> total <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(C\)</span></td>
+<td>selection limit challenge</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L\)</span></td>
+<td>contest selection limit</td>
+<td>root</td>
+<td>description.json</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> votes_allowed</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(V\)</span></td>
+<td>response to selection limit challenge</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation-of-ballot-chaining">Validation of Ballot Chaining</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm that each of the values in the running hash is correctly computed.  Specifically, an election verifier must confirm each of the following.</p>
+<p>(D) The equation <span class="arithmatex">\(H_0=H(\bar{Q})\)</span> is satisfied.</p>
+<p>(E) For each ballot </p>
+<div class="arithmatex">\[
+B_i, H_i=H(H_{i-1},D,T,B_i)
+\]</div>
+<p>is satisfied.</p>
+<p>(F) The closing hash </p>
+<div class="arithmatex">\[
+\bar{H} =H(H_l,\text{“CLOSE"})
+\]</div>
+<p>is correctly computed from the final tracking code <span class="arithmatex">\(H_l\)</span>.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(H_i\)</span></td>
+<td>running hash of ballots produced</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>tracking_hash (also previous_tracking_hash)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="correctness-of-ballot-aggregation">Correctness of Ballot Aggregation</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm for each (non-placeholder) option in each contest in the ballot coding file that the aggregate encryption <span class="arithmatex">\((A,B)\)</span> satisfies </p>
+<div class="arithmatex">\[
+A=\prod_j\alpha_j
+\]</div>
+<p>and </p>
+<div class="arithmatex">\[
+\beta=\prod_j \beta_j
+\]</div>
+<p>where the <span class="arithmatex">\((\alpha_j,\beta_j )\)</span> are the corresponding encryptions on all cast ballots in the election record.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\((\alpha_j,\beta_j)\)</span></td>
+<td>encryption of vote</td>
+<td>encrypted_ballots</td>
+<td>every file in this folder</td>
+<td>contests <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ballot_selections <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> ciphertext <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((A,B)\)</span></td>
+<td>encrypted aggregate total of votes in contest</td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> message <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="correctness-of-partial-decryptions">Correctness of Partial Decryptions</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must then confirm for each (non-placeholder) option in each contest in the ballot coding file the following for each decrypting trustee <span class="arithmatex">\(T_i\)</span>.</p>
+<p>The given value <span class="arithmatex">\(v_i\)</span> is in the set <span class="arithmatex">\(Z_q\)</span>.</p>
+<p>The given values <span class="arithmatex">\(a_i\)</span> and <span class="arithmatex">\(b_i\)</span> are both in the set <span class="arithmatex">\(Z_q^r\)</span>.</p>
+<p>The challenge value <span class="arithmatex">\(c_i\)</span> satisfies </p>
+<div class="arithmatex">\[
+c_i=H(\bar{Q},(A,B),(a_i,b_i ),M_i )
+\]</div>
+<p>The equation </p>
+<div class="arithmatex">\[
+g^{v_i}  \bmod p=(a_i K_i^{c_i} )  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>The equation <span class="arithmatex">\(A^{v_i}  \bmod p=(b_i M_i^{c_i} )  \bmod p\)</span> is satisfied.</p>
+</div>
+<h2 id="correctness-of-partial-decryptions_1">Correctness of Partial Decryptions</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must then confirm for each (non-placeholder) option in each contest in the ballot coding file the following for each decrypting trustee <span class="arithmatex">\(T_i\)</span>.</p>
+<p>(F) The given value <span class="arithmatex">\(v_i\)</span> is in the set of <span class="arithmatex">\(Z_q\)</span></p>
+<p>(G) The given values <span class="arithmatex">\(a_i\)</span> and <span class="arithmatex">\(b_i\)</span> are both in the set <span class="arithmatex">\(Z_q^r\)</span>.</p>
+<p>(H) The challenge value <span class="arithmatex">\(c_i\)</span> satisfies </p>
+<div class="arithmatex">\[
+c_i=H(Q ̅,(A,B),(a_i,b_i ),M_i )
+\]</div>
+<p>(I) The equation </p>
+<div class="arithmatex">\[
+g^{v_i} \bmod p=(a_i K_i^{c_i} )  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(J) The equation </p>
+<div class="arithmatex">\[
+A^{v_i}  \bmod p=(b_i M_i^{c_i} )  \bmod p
+\]</div>
+<p>is satisfied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\((A,B)\)</span></td>
+<td>encrypted aggregate total of votes in contest   root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> message <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(M_i\)</span></td>
+<td>partial decryption of <span class="arithmatex">\((A,B)\)</span> by guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> share</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((a_i,b_i)\)</span></td>
+<td>commitment by guardian <span class="arithmatex">\(T_i\)</span> to partial decryption of <span class="arithmatex">\((A,B)\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c_i\)</span></td>
+<td>challenge to partial decryption of guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(v_i\)</span></td>
+<td>response to challenge of guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root    tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> proof <span class="arithmatex">\(\rightarrow\)</span> response</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="correctness-of-substitute-data-for-missing-guardians">Correctness of Substitute Data for Missing Guardians</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is only necessary if some guardians are missing during tallying</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier must confirm for each (non-placeholder) option in each contest in the ballot coding file the following for each missing trustee <span class="arithmatex">\(T_i\)</span> and for each surrogate trustee <span class="arithmatex">\(T_\ell\)</span>.</p>
+<p>(A) The given value <span class="arithmatex">\(v_{i,l}\)</span> is in the set <span class="arithmatex">\(Z_q\)</span>.</p>
+<p>(B) The given values <span class="arithmatex">\(a_{i,l}\)</span> and <span class="arithmatex">\(b_{i,l}\)</span> are both in the set <span class="arithmatex">\(Z_q^r\)</span>.</p>
+<p>(C) The challenge value <span class="arithmatex">\(c_{i,l}\)</span> satisfies </p>
+<div class="arithmatex">\[
+c_(i,l)=H(Q ̅,(A,B),(a_(i,l),b_(i,l) ),M_(i,l) )
+\]</div>
+<p>(D) The equation </p>
+<div class="arithmatex">\[
+g^{v_{i,l}}  \bmod p=\left(a_{i,l}\cdot \left(\prod_{j=0}^{k-1} K_{i,j}^{l^j} \right)^{c_{i,l} } \right)  \bmod p
+\]</div>
+<p>is satisfied.</p>
+<p>(E) The equation </p>
+<div class="arithmatex">\[
+A^{v_{i,\ell}}  \bmod p= \left( b_{i,\ell} M_{i,l}^{c_{i,l}} \right)  \bmod p
+\]</div>
+<p>is satisfied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\((A,B)\)</span></td>
+<td>encrypted aggregate total of votes in contest</td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> message <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(M_(i,\ell)\)</span></td>
+<td>share of guardian <span class="arithmatex">\(T_\ell\)</span> of missing partial decryption of <span class="arithmatex">\((A,B)\)</span> by guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> substitute_proof <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> share</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((a_{i,l},b_{i,l})\)</span></td>
+<td>commitment by guardian <span class="arithmatex">\(T_\ell\)</span> to share of partial decryption for missing guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> substitute_proof <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> pad, data</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c_{i,\ell}\)</span></td>
+<td>challenge to guardian <span class="arithmatex">\(T_\ell\)</span> share of missing partial decryption of guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> substitute_proof <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> challenge</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(v_{i,l}\)</span></td>
+<td>response to challenge of guardian <span class="arithmatex">\(T_\ell\)</span> share of partial decryption of guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> substitute_proof <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="correctness-of-construction-of-replacement-partial-decryptions">Correctness of Construction of Replacement Partial Decryptions</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is only necessary if some guardians are missing during tallying</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier should confirm that for each trustee <span class="arithmatex">\(T_\ell\)</span> serving to help compute a missing share of a tally, that its Lagrange coefficient <span class="arithmatex">\(w_\ell\)</span> is correctly computed by confirming the equation</p>
+<div class="arithmatex">\[
+\left(\prod_{j\in(U-{\ell})}j\right)  \bmod q=\left(w_l⋅\left(\prod_{j\in (U-{l})} (j-\ell) \right)\right)  \bmod q
+\]</div>
+<p>An election verifier should then confirm the correct missing tally share for each (non-placeholder) option in each contest in the ballot coding file for each missing trustee <span class="arithmatex">\(T_i\)</span> as</p>
+<div class="arithmatex">\[
+M_i=\prod_{\ell \in U}\left(M_{i,\ell}\right)^{w_\ell}  \bmod p
+\]</div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(w_\ell\)</span></td>
+<td>coefficient for use with shares of guardian <span class="arithmatex">\(T_\ell\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> coefficient</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(M_{i,\ell}\)</span></td>
+<td>share of guardian <span class="arithmatex">\(T_\ell\)</span> of missing partial decryption of <span class="arithmatex">\((A,B)\)</span> by guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> substitute_proof <span class="arithmatex">\(\rightarrow\)</span> [item] <span class="arithmatex">\(\rightarrow\)</span> share</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(M_i\)</span></td>
+<td>partial decryption of <span class="arithmatex">\((A,B)\)</span> by guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> share</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation-of-correct-decryption-of-tallies">Validation of Correct Decryption of Tallies</h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier should confirm the following equations for each (non-placeholder) option in each contest in the ballot coding file.</p>
+<p>(C) </p>
+<div class="arithmatex">\[
+B=\left(M \cdot \left(\prod_{i=1}^n M_i \right)\right)  \bmod p
+\]</div>
+<p>(D)     </p>
+<div class="arithmatex">\[
+M=g^t  \bmod p
+\]</div>
+<p>An election verifier should also confirm that the text labels listed in the election record match the corresponding text labels in the ballot coding file.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Folder</th>
+<th>File</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(M_i\)</span></td>
+<td>partial decryption of <span class="arithmatex">\((A,B)\)</span> by guardian <span class="arithmatex">\(T_i\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> shares <span class="arithmatex">\(\rightarrow\)</span> [Item] <span class="arithmatex">\(\rightarrow\)</span> share</td>
+</tr>
+<tr>
+<td>(M)</td>
+<td>full decryption of <span class="arithmatex">\((A,B)\)</span></td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> value</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(t\)</span></td>
+<td>tally value</td>
+<td>root</td>
+<td>tally.json</td>
+<td>[prefix] <span class="arithmatex">\(\rightarrow\)</span> tally</td>
+</tr>
+</tbody>
+</table>
+<h1 id="validation-of-correct-decryption-of-spoiled-ballots">Validation of Correct Decryption of Spoiled Ballots</h1>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An election verifier should confirm the correct decryption of each spoiled ballot using the same process that was used to confirm the election tallies.</p>
+<p>An election verifier should also confirm that for each decrypted spoiled ballot, the selections listed in text match the corresponding text in the ballot coding file.</p>
+</div>
+<p>Validation of Correct Decryption of Spoiled Ballots is a repeat of verification steps 8 through 11 for each spoiled ballot instead of for the aggregate ballot that contains encrypted tallies</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:23">
+<p>Special thanks to Rainbow Huang (@rainbowhuanguw) for her help in producing this mapping.&#160;<a class="footnote-backref" href="#fnref:23" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:24">
+<p>In general, if <span class="arithmatex">\(n\)</span> is prime, one can compute <span class="arithmatex">\(a^b \bmod n\)</span> as <span class="arithmatex">\((a \bmod n)^{(b \bmod (n-1)} )  \bmod n\)</span>.  But within this application, the efficiency benefits of performing a modular reduction on an exponent are limited, and the risk of confusion or error from doing so likely exceeds the benefit.  In the particular instance of this specification, if <span class="arithmatex">\(a \in Z_p^r\)</span>, then one can compute <span class="arithmatex">\(a^b  \bmod p\)</span> as <span class="arithmatex">\(a^{(b mod q)} \bmod p\)</span>.  This has greater efficiency benefits, but the risk of confusion or error still likely exceed the efficiency benefit.&#160;<a class="footnote-backref" href="#fnref:24" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:25">
+<p>If alternative parameters are allowed, election verifiers must confirm that <span class="arithmatex">\(p\)</span>, <span class="arithmatex">\(q\)</span>, <span class="arithmatex">\(r\)</span>, <span class="arithmatex">\(g\)</span>, and $\bar{g} are such that both <span class="arithmatex">\(p\)</span> and <span class="arithmatex">\(q\)</span> are prime (this may be done probabilistically using the Miller-Rabin algorithm), that <span class="arithmatex">\(p-1=qr\)</span> is satisfied, that <span class="arithmatex">\(q\)</span> is not a divisor of <span class="arithmatex">\(r\)</span>, and <span class="arithmatex">\(1 \lt g \lt p\)</span>, that <span class="arithmatex">\(g^q  \bmod p=1\)</span>, that <span class="arithmatex">\(g \bar{g} \bmod p=1\)</span>, and that generation of the parameters is consistent with the cited standard.&#160;<a class="footnote-backref" href="#fnref:25" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../8_The_election_record/" title="The Election Record" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                The Election Record
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../10_Applicability/" title="Applicability to E2E Verifiability and RLA" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Applicability to E2E Verifiability and RLA
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            © Microsoft 2021
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a> and <a href="https://icons8.com/" target="_blank" rel="noopener">
+          Icons8
+        </a>
+      </div>
+      <div class="md-footer-copyright" style="display: flex; align-items:center;">
+        <span style="font-size:14px; margin-right: 8px;">Founded by</span>
+        <img style="width:120px" alt="microsoft-logo" src="https://microsoft.github.io/electionguard/assets/images/microsoft-logo.png"/>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.ca5457b8.min.js"></script>
+      
+        <script src="../../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
